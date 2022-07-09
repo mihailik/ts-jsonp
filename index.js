@@ -16,7 +16,6 @@ if (typeof require !== 'undefined' && require && typeof module !== 'undefined' &
         [__filename, path.resolve(require.resolve('typescript'), '../lib.d.ts')],
         { lib: ['esnext', 'es3', 'lib.dom'], allowJs: true }
       );
-      console.log(path.resolve(require.resolve('typescript'), '../lib.d.ts'), prog.getSourceFiles().map(sf => sf.fileName));
       /** @type {{ name: string, content: string }[]} */
       var entries = [];
       var files = prog.getSourceFiles();
@@ -60,7 +59,7 @@ if (typeof require !== 'undefined' && require && typeof module !== 'undefined' &
 
         var packageJSON = fs.readFileSync(__dirname + '/package.json') + '';
         var package = JSON.parse(packageJSON);
-        var tsVersion = package.devDependencies.typescript;
+        var tsVersion = package.devDependencies.typescript.replace(/^[^0-9]+/, '');
         var updatedPackageJSON = packageJSON.replace(/(\"version\":\s*\")([^\"]+)/, '$1' + tsVersion);
         if (packageJSON !== updatedPackageJSON) {
           fs.writeFileSync(__dirname + '/package.json', updatedPackageJSON);
