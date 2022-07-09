@@ -68,7 +68,16 @@ if (typeof require !== 'undefined' && require && typeof module !== 'undefined' &
           console.log('Updated ' + __filename + ' with library files for typescript@' + tsVersion + ':', entries.map(function (e) { return e.name; }));
         }
       } else {
-        console.log('No need to update, library files are the same.')
+        var packageJSON = fs.readFileSync(__dirname + '/package.json') + '';
+        var package = JSON.parse(packageJSON);
+        var tsVersion = package.devDependencies.typescript.replace(/^[^0-9]+/, '');
+        var updatedPackageJSON = packageJSON.replace(/(\"version\":\s*\")([^\"]+)/, '$1' + tsVersion);
+        if (packageJSON !== updatedPackageJSON) {
+          fs.writeFileSync(__dirname + '/package.json', updatedPackageJSON);
+          console.log('No need to update, library files are the same for  typescript@' + tsVersion + '.');
+        } else {
+          console.log('No need to update, library files are the same.')
+        }
       }
 
       // TODO: find in sourceFile and stick it in!
