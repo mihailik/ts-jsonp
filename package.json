@@ -1,6 +1,6 @@
 {
     "name": "ts-jsonp",
-    "version": "npm dist-tag add ts-jsonp@",
+    "version": "5.8.0-dev.20250125",
     "description": "TypeScript library files (lib.d.ts) to be used with JSONP via deployments like unpkg.",
     "main": "index.js",
     "scripts": {
@@ -10,6 +10,6 @@
     "author": "Library files - verbatim from Microsoft TypeScript package, see TypeScript license. JSONP package by Oleg Mihailik.",
     "license": "ISC",
     "devDependencies": {
-        "typescript": "^4.7.4"
+        "typescript": "^5.7.3"
     }
 }

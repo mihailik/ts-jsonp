@@ -1,17 +1,25 @@
+var fs = require('fs');
 var child_process = require('child_process');
 var allversions = JSON.parse(child_process.execSync('npm view typescript versions --json') + '');
-//allversions.reverse();
+allversions.reverse();
+fs.writeFileSync(__dirname + '/versions.txt', JSON.stringify(allversions, null, 2));
 for (var i = 0; i < allversions.length; i++) {
     try {
         var tsVer = allversions[i];
-        if (tsVer.split('.')[0] < '4') continue;
-        if (tsVer.split('.')[0] === '4' && Number(tsVer.split('.')[1])<'2') continue;
-        if (!/[^0-9\.]/.test(tsVer)) continue;
+
+        // -beta -dev and all that kinda stuff
+        // if (tsVer.indexOf('-') >= 0) continue;
+
+        if (tsVer.split('.')[0] < '5') continue;
+        if (tsVer.split('.')[0] === '5' && Number(tsVer.split('.')[1]) < '5') continue;
+
+        // if (!/[^0-9\.]/.test(tsVer)) continue;
+
         console.log(' ' + tsVer + '  ===================== ');
         child_process.execSync('npm install typescript@' + tsVer + ' --save-dev');
         child_process.execSync('npm start');
         child_process.execSync('npm start');
-        child_process.execSync('npm publish');
+        child_process.execSync('npm publish --tag ts-' + tsVer);
         console.log('\n\n\n');
     }
     catch (error) {
